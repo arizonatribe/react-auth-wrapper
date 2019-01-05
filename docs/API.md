@@ -9,12 +9,12 @@
       ReactClass | ReactFunctionalComponent | string
   ```
 
-## Redirection Helpers (React Router 3/History v3)
+## Redirection Helpers (React Router/History)
 
 ### `connectedRouterRedirect`
 
 ```js
-import { connectedRouterRedirect } from 'redux-auth-wrapper/history3/redirect'
+import { connectedRouterRedirect } from 'react-auth-wrapper/redirectHelper'
 
 connectedRouterRedirect({
   redirectPath: string | (state: Object, ownProps: Object) => string,
@@ -30,76 +30,7 @@ connectedRouterRedirect({
 ### `connectedReduxRedirect`
 
 ```js
-import { connectedReduxRedirect } from 'redux-auth-wrapper/history3/redirect'
-
-connectedReduxRedirect({
-  redirectPath: string | (state: Object, ownProps: Object) => string,
-  authenticatedSelector: (state: Object, ownProps: Object) => boolean,
-  ?authenticatingSelector: (state: Object, ownProps: Object) => boolean,
-  ?AuthenticatingComponent: ReactClass | ReactFunctionalComponent | string,
-  ?wrapperDisplayName: string,
-  ?allowRedirectBack: boolean | (nextState: Object, redirectPath: String) => boolean,
-  ?redirectQueryParamName: string
-}): HigherOrderComponent
-```
-
-### `createOnEnter`
-
-```js
-import { createOnEnter } from 'redux-auth-wrapper/history3/redirect'
-
-createOnEnter({
-  redirectPath: string | (state: Object, nextState: Object) => string,
-  authenticatedSelector: (state: Object, nextState: Object) => boolean,
-  ?authenticatingSelector: (state: Object, nextState: Object) => boolean,
-  ?AuthenticatingComponent: ReactClass | ReactFunctionalComponent | string,
-  ?wrapperDisplayName: string,
-  ?allowRedirectBack: boolean | (nextState: Object, redirectPath: String) => boolean,
-  ?redirectQueryParamName: string
-}): (store: Object, nextState: Object: replace: (location: Object => void))
-```
-
-### `locationHelperBuilder`
-
-Helper used by the redirection and useful for pulling the redirectPath out of the query params.
-
-```js
-import locationHelperBuilder from 'redux-auth-wrapper/history3/locationHelper'
-
-locationHelperBuilder({
-  ?redirectQueryParamName: string,
-  ?locationSelector: (props: Object) => LocationObject
-}) : LocationHelper
-
-
-LocationHelper: {
-  getRedirectQueryParam: (props: Object) => string,
-  createRedirectLoc: allowRedirectBack: boolean => (nextState: Object, redirectPath: string) => LocationObject,
-}
-```
-
-## Redirection Helpers (React Router 4/History v4)
-
-### `connectedRouterRedirect`
-
-```js
-import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
-
-connectedRouterRedirect({
-  redirectPath: string | (state: Object, ownProps: Object) => string,
-  authenticatedSelector: (state: Object, ownProps: Object) => boolean,
-  ?authenticatingSelector: (state: Object, ownProps: Object) => boolean,
-  ?AuthenticatingComponent: ReactClass | ReactFunctionalComponent | string,
-  ?wrapperDisplayName: string,
-  ?allowRedirectBack: boolean | (nextState: Object, redirectPath: String) => boolean,
-  ?redirectQueryParamName: string
-}): HigherOrderComponent
-```
-
-### `connectedReduxRedirect`
-
-```js
-import { connectedReduxRedirect } from 'redux-auth-wrapper/history4/redirect'
+import { connectedReduxRedirect } from 'react-auth-wrapper/redirectHelper'
 
 connectedRouterRedirect({
   redirectPath: string | (state: Object, ownProps: Object) => string,
@@ -116,7 +47,7 @@ connectedRouterRedirect({
 ### `locationHelperBuilder`
 
 ```js
-import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
+import locationHelperBuilder from 'react-auth-wrapper/locationHelper'
 
 locationHelperBuilder({
   ?redirectQueryParamName: string,
@@ -135,7 +66,7 @@ LocationHelper: {
 ### `authWrapper`
 
 ```js
-import authWrapper from 'redux-auth-wrapper/authWrapper'
+import authWrapper from 'react-auth-wrapper/authWrapper'
 
 authWrapper({
   ?AuthenticatingComponent: ReactClass | ReactFunctionalComponent | string,
@@ -149,7 +80,7 @@ The returned Component after applying a Component to the HOC takes as props `isA
 ### `connectedAuthWrapper`
 
 ```js
-import connectedAuthWrapper from 'redux-auth-wrapper/connectedAuthWrapper'
+import connectedAuthWrapper from 'react-auth-wrapper/connectedAuthWrapper'
 
 connectedAuthWrapper({
   authenticatedSelector: (state: Object, ownProps: Object) => boolean,
@@ -159,7 +90,3 @@ connectedAuthWrapper({
   ?wrapperDisplayName: string
 }): HigherOrderComponent
 ```
-
-## Other Helpers
-
-Documentation in progress!

@@ -1,5 +1,5 @@
-## [HEAD](https://github.com/mjrussell/redux-auth-wrapper/compare/v2.0.3...HEAD)
-Nothing yet
+## [3.0.0](https://github.com/arizonatribe/react-auth-wrapper/compare/v2.0.2...v3.0.0)
+- Forked `redux-auth-wrapper` and refactored to have no dependency on Redux (can work with just React+React-Router)
 
 ## [2.0.3](https://github.com/mjrussell/redux-auth-wrapper/compare/v2.0.2...v2.0.3)
 - Warning fix for React 16.3+ [#235](https://github.com/mjrussell/redux-auth-wrapper/pull/235) (contributed by @tpai)

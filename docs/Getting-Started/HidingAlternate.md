@@ -1,6 +1,6 @@
 # Hiding and Displaying Alternate Components
 
-In addition to controlling what pages users can access in an application, another common requirement is to hide or display different elements on the page depending on the user's permissions. redux-auth-wrapper also provides an HOC that makes this easy to do in your application.
+In addition to controlling what pages users can access in an application, another common requirement is to hide or display different elements on the page depending on the user's permissions. react-auth-wrapper also provides an HOC that makes this easy to do in your application.
 
 ## Hiding a Component
 
@@ -8,7 +8,7 @@ If you want to hide a component, you can import the `connectedAuthWrapper` HOC. 
 
 Here is an example that hides a link from a non-admin user.
 ```js
-import connectedAuthWrapper from 'redux-auth-wrapper/connectedAuthWrapper'
+import connectedAuthWrapper from 'react-auth-wrapper/connectedAuthWrapper'
 
 const visibleOnlyAdmin = connectedAuthWrapper({
   authenticatedSelector: state => state.user !== null && state.user.isAdmin,
@@ -24,7 +24,7 @@ const AdminOnlyLink = visibleOnlyAdmin(() => <Link to='/admin'>Admin Section</Li
 You can also display a component when the `authenticatedSelector` returns false. Simply pass the `FailureComponent` property to the `authWrapper`.
 
 ```js
-import connectedAuthWrapper from 'redux-auth-wrapper/connectedAuthWrapper'
+import connectedAuthWrapper from 'react-auth-wrapper/connectedAuthWrapper'
 
 const visibleOnlyAdmin = connectedAuthWrapper({
   authenticatedSelector: state => state.user !== null && state.user.isAdmin,
@@ -51,10 +51,10 @@ const adminOrElse = (Component, FailureComponent) => connectedAuthWrapper({
 
 ## Unconnected Wrapper
 
-If you don't want to have redux-auth-wrapper connect your selector automatically for you, you can use the un-connected version. This might be useful if you are already connecting the component and dont want the extra overhead of another `connect`, or want to pass the props in via traditional state.
+If you don't want to have react-auth-wrapper connect your selector automatically for you, you can use the un-connected version. This might be useful if you are already connecting the component and dont want the extra overhead of another `connect`, or want to pass the props in via traditional state.
 
 ```js
-import authWrapper from 'redux-auth-wrapper/authWrapper'
+import authWrapper from 'react-auth-wrapper/authWrapper'
 
 const visibleOnlyAdmin = authWrapper({
   wrapperDisplayName: 'VisibleOnlyAdmin',

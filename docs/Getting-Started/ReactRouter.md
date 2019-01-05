@@ -1,14 +1,13 @@
-# React Router 4 Redirection
+# React Router Redirection
 
-React Router 4 removed `onEnter` and `onChange` in favor of performing those routing logic actions inside component life cycle methods. This is what redux-auth-wrapper already does with Higher Order Components!
-
-Using redux-auth-wrapper with React Router 4 is very similar to React Router 3 with a few changes.
+React Router 4 removed `onEnter` and `onChange` in favor of performing those routing logic actions inside component life cycle methods. This is what react-auth-wrapper already does with Higher Order Components!
 
 ## Securing a Route
 
-To add redirection to your app with React Router 4, import the following helper:
+To add redirection to your app with React Router, import the following helper:
+
 ```js
-import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
+import { connectedRouterRedirect } from 'react-auth-wrapper/redirectHelper'
 ```
 
 The `connectedRouterRedirect` will build the redirect higher order component, but we have to first pass in a config object. The wrapper needs to know how to determine if a user is allowed to access the route.
@@ -47,7 +46,7 @@ When the user navigates to `/profile`, one of the following occurs:
 We've only done half of the work however. When a user logs into the login page, we want to send them back to `/profile`. Additionally, if a user is already logged in, but navigates to our login page, we may want to send them to a landing page (`/landing`). Luckily we can easily do both of these with another wrapper.
 
 ```js
-import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
+import locationHelperBuilder from 'react-auth-wrapper/locationHelper'
 
 const locationHelper = locationHelperBuilder({})
 
@@ -95,25 +94,6 @@ const userIsAuthenticated = connectedRouterRedirect({
 
 You can also add an `authenticatingSelector` and `AuthenticatingComponent`
 
-## Integrating with redux-based routing
-
-If you want to dispatch a redux action to perform navigation instead of interacting directly with the history/router object then you can pass the redux action creator to `redirectAction`. Note that using `redirectAction` is not required if you use redux-based or redux-integrated routing, it only changes how the route change is triggered in the client.
-
-To do this, swap out the import of `connectedRouterRedirect` for `connectedReduxRedirect` and pass the `redirectAction` parameter to the config object:
-
-```js
-import { connectedReduxRedirect } from 'redux-auth-wrapper/history4/redirect'
-import { routerActions } from 'react-router-redux'
-
-const userIsAuthenticated = connectedReduxRedirect({
-  redirectPath: '/login',
-  authenticatedSelector: state => state.user !== null,
-  wrapperDisplayName: 'UserIsAuthenticated',
-  // This should be a redux action creator
-  redirectAction: routerActions.replace,
-})
-```
-
 ## Next Steps
 
-Check out the [examples](https://github.com/mjrussell/redux-auth-wrapper/tree/master/examples) or browse the [API documentation](/docs/API.md).
+Check out the [examples](https://github.com/arizonatribe/react-auth-wrapper/tree/master/examples) or browse the [API documentation](/docs/API.md).

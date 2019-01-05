@@ -1,6 +1,0 @@
-export App from './App'
-export Home from './Home'
-export Foo from './Foo'
-export Admin from './Admin'
-export Login from './Login'
-export Loading from './Loading'

@@ -2,7 +2,7 @@
 
 ## Higher Order Components
 
-redux-auth-wrapper makes use of higher order components to decouple the rendering logic in your components from the permissions a user might have. If you are unfamiliar with using higher order components or where to apply them, please read below, otherwise skip to the [Tutorials](#tutorials).
+react-auth-wrapper makes use of higher order components to decouple the rendering logic in your components from the permissions a user might have. If you are unfamiliar with using higher order components or where to apply them, please read below, otherwise skip to the [Tutorials](#tutorials).
 
 For a great read on what higher order components are, check out Dan Abramov's blog post:
 
@@ -13,7 +13,7 @@ For a great read on what higher order components are, check out Dan Abramov's bl
 
 Higher order components are extremely powerful tools for adding logic to your components and keeping them easy to understand. It is important, however, to apply HOCs in the proper place. Failure to do so can cause subtle bugs and performance problems in your code.
 
-In all of the following examples, we use the hoc `authWrapper`, but this advice applies for all HOCs (even ones not from redux-auth-wrapper).
+In all of the following examples, we use the hoc `authWrapper`, but this advice applies for all HOCs (even ones not from react-auth-wrapper).
 
 #### Safe to Apply
 
@@ -104,8 +104,6 @@ const routes = (
 
 ## Tutorials
 
-* [React Router 3 Tutorial](ReactRouter3.md)
-* [React Router 4 Tutorial](ReactRouter4.md)
-* [React Native Tutorial](ReactNative.md)
+* [React Router Tutorial](ReactRouter.md)
 * [Hiding and Alternative Components](HidingAlternate.md)
 * [Nesting Wrappers](NestingWrappers.md)

@@ -1,7 +1,8 @@
 lib
-examples/**/bundle.js
+build
+examples
 node_modules
 coverage
 npm-debug.log
-.idea/
-_book
+.nyc_output/
+.env
