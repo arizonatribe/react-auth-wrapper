@@ -1,5 +1,6 @@
 lib
 build
+docs
 examples
 node_modules
 coverage

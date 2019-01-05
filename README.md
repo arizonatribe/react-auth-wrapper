@@ -24,4 +24,6 @@ in your app.
   * withAuthAndRedirect - Like `withAuth` except will also allow redirecting to a given URL/route when un-authenticated and return to your component once authenticated
   * withAuthFromContextAndRedirect - Like `withAuthFromContext` except will also allow redirecting to a given URL/route when un-authenticated and return to your component once authenticated
 
-[Additional documentation](docs/Summary.md)
+## Docs
+
+View the [full docs](https://arizonatribe.github.io/react-auth-wrapper/). These are always in-sync with the JsDoc code annotations.

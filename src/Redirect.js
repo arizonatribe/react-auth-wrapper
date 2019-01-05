@@ -34,8 +34,8 @@ Redirect.propTypes = {
 }
 
 const defaults = {
-  authenticatingSelector: () => false,
-  authenticatedSelector: () => false,
+  authenticatedSelector: p => Boolean(p.isAuthenticated),
+  authenticatingSelector: p => Boolean(p.isAuthenticating),
   allowRedirectBack: true,
   FailureComponent: Redirect,
   redirectQueryParamName: 'redirect'
@@ -53,10 +53,10 @@ function createRedirectWrapper(wrapper) {
       redirectQueryParamName
     } = allArgs
 
-    const getAuthenticated = validateStringOrFunction(authenticatedSelector, 'authenticatedSelector')
-    const getAuthenticating = validateStringOrFunction(authenticatingSelector, 'authenticatingSelector')
     const redirectPathSelector = validateBoolOrFunction(redirectPath, 'redirectPath')
     const allowRedirectBackFn = validateBoolOrFunction(allowRedirectBack, 'allowRedirectBack')
+    const getAuthenticated = validateStringOrFunction(authenticatedSelector, 'authenticatedSelector')
+    const getAuthenticating = validateStringOrFunction(authenticatingSelector, 'authenticatingSelector')
 
     const EnhancedFailureComponent = props =>
       <FailureComponent
