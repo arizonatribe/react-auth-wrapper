@@ -1,6 +1,13 @@
 {
   "parser": "babel-eslint",
   "extends": "airbnb",
+  "overrides": {
+    "files": [ "test/**.js", "scripts/**/*.js"],
+    "rules": {
+      "import/no-extraneous-dependencies": "off",
+      "no-console": "off"
+    }
+  },
   "rules": {
     "react/jsx-wrap-multilines": "off",
     "react/jsx-filename-extension": 0,
