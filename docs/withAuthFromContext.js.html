@@ -1,0 +1,149 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Source: withAuthFromContext.js | react-auth-wrapper</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/bootstrap.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-jsdoc.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/tui-doc.css">
+
+    
+        
+            <link type="text/css" rel="stylesheet" href="styles/after.css">
+        
+    
+</head>
+<body>
+<nav class="lnb" id="lnb">
+    <div class="logo" style="width: 1px; height: 1px">
+        
+            <a href="https://github.com/arizonatribe/react-auth-wrapper" rel="noopener noreferrer" target="_blank">
+                <img src="https://arizonatribe.github.io/react-auth-wrapper/styles/logo.png" width="100%" height="100%">
+            </a>
+        
+    </div>
+    <div class="title">
+        <h1><a href="index.html" class="link">react-auth-wrapper</a></h1>
+        
+            <span class="version">v1.0.0</span>
+        
+    </div>
+    <div class="search-container" id="search-container">
+        <input type="text" placeholder="Search">
+        <ul></ul>
+    </div>
+    
+    <div class="lnb-api hidden"><h3>Global</h3><ul><li><a href="global.html#withAuth">withAuth</a></li><li><a href="global.html#withAuthAndRedirect">withAuthAndRedirect</a></li><li><a href="global.html#withAuthFromContext">withAuthFromContext</a></li><li><a href="global.html#withAuthFromContextAndRedirect">withAuthFromContextAndRedirect</a></li></ul></div>
+</nav>
+<div id="resizer"></div>
+
+<div class="main" id="main">
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from 'react'
+import withAuth from './withAuth'
+import { validateStringOrFunction } from './helpers'
+
+const defaults = {
+  authenticatingSelector: contextProps => contextProps.isAuthenticating,
+  authenticatedSelector: contextProps => contextProps.isAuthenticated
+}
+
+/**
+ * A simple wrapper to any component that will only display the component if the user is in an authenticated state.
+ * Unlike the `withAuth` higher-order component, this one is expecting a [Context Consumer](https://reactjs.org/docs/context.html#contextconsumer)
+ * to be provided, and it will use the props provided to the consumer to apply the authenticated/authenticating selectors.
+ * It will look for props injected into the component to determine whether to display either:
+ *   - A Failure Component (when the `authenticatedSelector` returns `false`)
+ *   - An Authenticating/Pending Component (when `authenticatingSelector` returns `true` and `authenticatedSelector` also returns `false`)
+ *   - Your actual Component (when the `authenticatedSelector` returns `true`)
+ * If the optional components are not provided `null` will be rendered/returned when in those states.
+ *
+ * @func
+ * @sig {k: v} -> (Component -> ({k: v} -> Component))
+ * @param {Function|String} args.authenticatedSelector A prop name OR a selector function
+ * that will find the prop injected into the component that identifies whether the user is authenticated or not
+ * (defaults to look for a prop named `isAuthenticated`)
+ * @param {Function|String} args.authenticatingSelector A prop name OR a selector function
+ * that will find the prop injected into the component that identifies whether the user authentication
+ * is in-progress or not (defaults to look for a prop named `isAuthenticating`)
+ * @param {Function} args.ContextConsumer An instance of a `.Consumer` from the context object that
+ * [React.createContext()](https://reactjs.org/docs/context.html#reactcreatecontext) returns
+ * @param {Function} args.AuthenticatingComponent An optional component that would be
+ * displaying while authentication is in-progress (defaults to an empty Component that returns `null`)
+ * @param {Function} args.FailureComponent An optional component that would be diplayed
+ * when authentication fails (defaults to a Component Component that returns `null`)
+ * @param {String} args.wrapperDisplayName An optional display name to give to
+ * the wrapper component (defaults to just 'AuthWrapper')
+ * @returns {Function} A function that is ready to receive a Component to decorate
+ */
+function withAuthFromContext(args = {}) {
+  const { ContextConsumer, authenticatedSelector, authenticatingSelector, ...restOfArgs } = {
+    ...defaults,
+    ...args
+  }
+
+  const getAuthenticated = validateStringOrFunction(authenticatedSelector, 'authenticatedSelector')
+  const getAuthenticating = validateStringOrFunction(authenticatingSelector, 'authenticatingSelector')
+
+  return DecoratedComponent => {
+    const AuthWrappedComponent = withAuth(restOfArgs)(DecoratedComponent)
+
+    return props =>
+      &lt;ContextConsumer {...props}>
+        {contextProps =>
+          &lt;AuthWrappedComponent
+            {...props}
+            isAuthenticated={getAuthenticated(contextProps)}
+            isAuthenticating={getAuthenticating(contextProps)}
+          />
+        }
+      &lt;/ContextConsumer>
+  }
+}
+
+export default withAuthFromContext
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<footer>
+    <img class="logo" src="https://arizonatribe.github.io/react-auth-wrapper/styles/logo.png" style="width: 1px; height: 1px">
+    <div class="footer-text">A utility library for handling authentication and authorization for react apps</div>
+</footer>
+<script>prettyPrint();</script>
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/tui-doc.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+    <script>
+        var id = '_sub'.replace(/"/g, '_');
+        var selectedApi = document.getElementById(id); // do not use jquery selector
+        var $selectedApi = $(selectedApi);
+
+        $selectedApi.removeClass('hidden');
+        $selectedApi.parent().find('.glyphicon').removeClass('glyphicon-plus').addClass('glyphicon-minus');
+        showLnbApi();
+    </script>
+
+</body>
+</html>
