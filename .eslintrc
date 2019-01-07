@@ -1,6 +1,9 @@
 {
   "parser": "babel-eslint",
   "extends": "airbnb",
+  "env": {
+    "browser": true
+  },
   "overrides": {
     "files": [ "test/**.js", "scripts/**/*.js"],
     "rules": {
@@ -14,6 +17,7 @@
     "react/require-default-props": "off",
     "react/destructuring-assignment": "off",
     "react/default-props-match-prop-types": [ "error", { "allowRequiredDefaults": true } ],
+    "react/no-unused-state": "off",
     "no-bitwise": 0,        
     "linebreak-style": "off",
     "class-methods-use-this": "off",

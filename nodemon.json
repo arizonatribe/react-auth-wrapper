@@ -3,6 +3,6 @@
   "ignore": ["node_modules"],
   "watch": ["./src", "./test"],
   "execMap": {
-    "js": "clear && cross-env NODE_ENV=test tape --require=jsdom --require=jsdom-global/register --require=@babel/register src/__tape__/index.js | faucet"
+    "js": "clear && cross-env NODE_ENV=test tape --require=jsdom --require=jsdom-global/register --require=mock-local-storage --require=@babel/register --require=@babel/polyfill test/index.js | faucet"
   }
 }

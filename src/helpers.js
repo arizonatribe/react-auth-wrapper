@@ -46,9 +46,9 @@ function getFullRedirectPath(redirectQueryParamName = 'redirect', redirectPath, 
 }
 
 function validateStringOrFunction(val, name = 'prop') {
-  if (typeof redirectPath === 'string') {
-    return () => val
-  } else if (typeof redirectPath === 'function') {
+  if (typeof val === 'string') {
+    return p => p[val]
+  } else if (typeof val === 'function') {
     return val
   } else {
     throw new Error(`${name} must be either a string or a function`)
@@ -56,9 +56,9 @@ function validateStringOrFunction(val, name = 'prop') {
 }
 
 function validateBoolOrFunction(val, name = 'prop') {
-  if (typeof redirectPath === 'boolean') {
+  if (typeof val === 'boolean') {
     return () => val
-  } else if (typeof redirectPath === 'function') {
+  } else if (typeof val === 'function') {
     return val
   } else {
     throw new Error(`${name} must be either a bool or a function`)
