@@ -1,24 +1,20 @@
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { validateStringOrFunction, validateBoolOrFunction, getFullRedirectPath } from './helpers'
+import { parse, validateStringOrFunction, validateBoolOrFunction, getFullRedirectPath } from './helpers'
 
 class Redirect extends PureComponent {
-  componentDidMount() {
+  render() {
     const { redirectPath, location, history } = this.props
-
     if (redirectPath) {
       if (history && typeof history.push === 'function') {
         history.push(redirectPath)
       } else if (location && typeof location.replace === 'function') {
         location.replace(redirectPath)
-      } else {
+      } else if (typeof window !== 'undefined') {
         // eslint-disable-next-line no-undef
         window.location.replace(redirectPath)
       }
     }
-  }
-
-  render() {
     return null
   }
 }
@@ -38,7 +34,12 @@ const defaults = {
   authenticatingSelector: p => Boolean(p.isAuthenticating),
   allowRedirectBack: true,
   FailureComponent: Redirect,
+  wrapperDisplayName: 'AuthRedirectWrapper',
   redirectQueryParamName: 'redirect'
+}
+
+function getLocation(props = {}) {
+  return props.location || (typeof window !== 'undefined' && window.location) || {}
 }
 
 function createRedirectWrapper(wrapper) {
@@ -50,10 +51,9 @@ function createRedirectWrapper(wrapper) {
       allowRedirectBack,
       authenticatedSelector,
       authenticatingSelector,
-      redirectQueryParamName
+      redirectQueryParamName = 'redirect'
     } = allArgs
 
-    const redirectPathSelector = validateBoolOrFunction(redirectPath, 'redirectPath')
     const allowRedirectBackFn = validateBoolOrFunction(allowRedirectBack, 'allowRedirectBack')
     const getAuthenticated = validateStringOrFunction(authenticatedSelector, 'authenticatedSelector')
     const getAuthenticating = validateStringOrFunction(authenticatingSelector, 'authenticatingSelector')
@@ -61,12 +61,18 @@ function createRedirectWrapper(wrapper) {
     const EnhancedFailureComponent = props =>
       <FailureComponent
         {...props}
-        redirectPath={getFullRedirectPath(
-          redirectQueryParamName,
-          redirectPathSelector(props),
-          allowRedirectBackFn(props),
-          props.location
-        )}
+        redirectPath={
+          parse(
+            getLocation(props).search,
+            redirectQueryParamName
+          ) ||
+          getFullRedirectPath(
+            redirectQueryParamName,
+            props.redirectPath || redirectPath,
+            allowRedirectBackFn(props),
+            getLocation(props)
+          )
+        }
       />
 
     return DecoratedComponent => {

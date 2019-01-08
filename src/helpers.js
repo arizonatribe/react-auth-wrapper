@@ -1,9 +1,47 @@
-import url from 'url'
-
 function encode(key, value) {
-  return value === null
+  const keyOnly = value == null || (
+    typeof value !== 'string' && typeof value !== 'number' && !Array.isArray(value)
+  )
+  return keyOnly
     ? encodeURIComponent(key)
-    : [encodeURIComponent(key), '=', encodeURIComponent(value)].join('')
+    : [
+      encodeURIComponent(key),
+      '=',
+      encodeURIComponent(value)
+    ].join('')
+}
+
+function parse(strRaw, key) {
+  if (typeof key !== 'string' || !key || typeof strRaw !== 'string' || !strRaw) {
+    return ''
+  }
+
+  const decodedVal = strRaw.split('&')
+    .filter(kv => kv.split('=')[0] === key && kv.split('=')[1])
+    .map(kv => decodeURIComponent(kv.split('=')[1]))[0]
+
+  try {
+    if (/({|}|\[|\])/.test(decodedVal)) {
+      return JSON.parse(decodedVal)
+    }
+  } catch (error) {
+    // Failed to parse json
+  }
+
+  return decodedVal
+}
+
+function parseQs(qsRaw) {
+  if (typeof qsRaw !== 'string' || !qsRaw) {
+    return {}
+  }
+
+  return qsRaw
+    .split('&')
+    .filter(kv => kv.split('=')[1])
+    .reduce((acc, kv) => ({
+      ...acc, [kv.split('=')[0]]: decodeURIComponent(kv.split('=')[1])
+    }), {})
 }
 
 function stringify(obj) {
@@ -12,7 +50,7 @@ function stringify(obj) {
   return Object.keys(obj).map(key => {
     const value = obj[key]
     if (value === undefined) return ''
-    if (value === null) return encodeURIComponent(key)
+    if (value === null || (typeof value === 'string' && !value)) return encodeURIComponent(key)
 
     if (Array.isArray(value)) {
       const result = []
@@ -25,29 +63,63 @@ function stringify(obj) {
   }).filter(Boolean).join('&')
 }
 
-function getFullRedirectPath(redirectQueryParamName = 'redirect', redirectPath, allowRedirectBack, location) {
+function parseUrl(url) {
+  let hash = ''
+  let search = ''
+  let pathname = ''
+
+  const href = (url || '').trim()
+  const protocolIndex = href.indexOf('://')
+  const withoutProtocol = protocolIndex !== -1
+    ? href.substring(protocolIndex + 3)
+    : href
+
+  // eslint-disable-next-line
+  let [host, ...parts] = withoutProtocol.split('/').filter(Boolean)
+
+  pathname = `/${parts.join('/') || host}`
+
+  if (pathname.split('#').length === 2) {
+    [pathname, hash] = pathname.split('#')
+  }
+
+  if (pathname.split('?').length === 2) {
+    [pathname, search] = pathname.split('?')
+  }
+
+  const query = parseQs(search) || {}
+
+  return {
+    hash,
+    host,
+    query,
+    search: search ? `?${search}` : search,
+    href: href.replace(/\/$/, ''),
+    pathname: pathname.replace(/\/$/, '')
+  }
+}
+
+function getFullRedirectPath(redirectQueryParamName, redirectPath, allowRedirectBack, location) {
   if (!redirectPath) return ''
 
   // eslint-disable-next-line no-undef
-  const loc = location || (typeof window !== 'undefined' && window.location)
-  const redirectLoc = url.parse(redirectPath, true)
+  const redirectLoc = parseUrl(redirectPath)
 
-  let query
+  const qsRaw = location
+    ? `${location.pathname || ''}${location.search || ''}${location.hash || ''}`
+    : ''
+  const query = allowRedirectBack && qsRaw
+    ? { [redirectQueryParamName || 'redirect']: qsRaw }
+    : {}
 
-  if (allowRedirectBack) {
-    query = { [redirectQueryParamName]: `${loc.pathname}${loc.search}${loc.hash}` }
-  } else {
-    query = {}
-  }
+  const qs = stringify({ ...query, ...redirectLoc.query })
 
-  query = { ...query, ...redirectLoc.query }
-
-  return `${redirectLoc.pathname}${redirectLoc.hash}${stringify(query)}`
+  return `${redirectLoc.pathname || ''}${redirectLoc.hash || ''}${qs ? `?${qs}` : ''}`
 }
 
 function validateStringOrFunction(val, name = 'prop') {
   if (typeof val === 'string') {
-    return p => p[val]
+    return p => p && p[val]
   } else if (typeof val === 'function') {
     return val
   } else {
@@ -67,6 +139,9 @@ function validateBoolOrFunction(val, name = 'prop') {
 
 export {
   encode,
+  parse,
+  parseQs,
+  parseUrl,
   stringify,
   getFullRedirectPath,
   validateBoolOrFunction,

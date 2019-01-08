@@ -1,7 +1,5 @@
 const babel = require('rollup-plugin-babel')
 const nodeResolve = require('rollup-plugin-node-resolve')
-const builtins = require('rollup-plugin-node-builtins')
-const globals = require('rollup-plugin-node-globals')
 const commonjs = require('rollup-plugin-commonjs')
 const replace = require('rollup-plugin-replace')
 const { terser } = require('rollup-plugin-terser')
@@ -25,8 +23,6 @@ const config = {
     commonjs({
       include: ['node_modules/hoist-non-react-statics/**']
     }),
-    globals(),
-    builtins(),
     nodeResolve({ jsnext: true }),
     babel({ exclude: 'node_modules/**' }),
     replace({ 'process.env.NODE_ENV': JSON.stringify(env) })

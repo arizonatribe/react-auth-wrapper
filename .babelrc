@@ -11,6 +11,12 @@
   "plugins": [
     "@babel/proposal-object-rest-spread",
     ["@babel/plugin-proposal-class-properties", { "loose": true }],
+    ["@babel/plugin-transform-runtime", {
+      "corejs": false,
+      "helpers": false,
+      "regenerator": true,
+      "useESModules": true
+    }],
     ["transform-react-remove-prop-types", { "removeImport": true }],
     ["@babel/plugin-proposal-decorators", { "legacy": true }]
   ],

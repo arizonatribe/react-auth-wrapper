@@ -21,7 +21,14 @@ function createConfig(paths = {}, env = process.env) {
     context: { stdio: 'inherit', env }
   }, {
     command: paths.tape,
-    args: ['--require=@babel/register', 'test/index.js', ` | ${paths.faucet}`],
+    args: [
+      '--require=jsdom',
+      '--require=jsdom-global/register',
+      '--require=mock-local-storage',
+      '--require=@babel/register',
+      'test/index.js',
+      ` | ${paths.faucet}`
+    ],
     context: { stdio: 'inherit', env, shell: true }
   }, {
     command: paths.babel,
