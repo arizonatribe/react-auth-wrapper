@@ -17,6 +17,21 @@
     "test": "tape --require=jsdom --require=jsdom-global/register --require=mock-local-storage --require=@babel/register test/index.js | faucet",
     "start": "npm run test:watch"
   },
+  "keywords": [
+    "react",
+    "auth",
+    "auth wrapper",
+    "authentication",
+    "authorization",
+    "provider",
+    "context",
+    "consumer",
+    "context api",
+    "createcontext",
+    "redirect",
+    "higher-order component",
+    "hoc"
+  ],
   "repository": {
     "type": "git",
     "url": "https://github.com/arizonatribe/react-auth-wrapper.git"
